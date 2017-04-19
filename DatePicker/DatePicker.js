@@ -68,8 +68,7 @@ var DatePicker = function (_Component) {
 
     return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = DatePicker.__proto__ || (0, _getPrototypeOf2.default)(DatePicker)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
       date: undefined,
-      selectedCompareValue: undefined,
-      currentHour: 0
+      selectedCompareValue: undefined
     }, _this.handleAccept = function (date) {
       if (!_this.isControlled()) {
         _this.setState({
@@ -79,7 +78,14 @@ var DatePicker = function (_Component) {
       if (_this.props.onChange) {
         var selectedCompareValue = _this.state.selectedCompareValue;
         if (!selectedCompareValue) {
-          selectedCompareValue = _this.props.compareValues[0].value;
+          if (_this.props.compareValues == undefined) {
+            selectedCompareValue = null;
+          }
+          if (_this.props.compareValues.length == 0) {
+            selectedCompareValue = null;
+          } else {
+            selectedCompareValue = _this.this.props.compareValues[0].value;
+          }
         }
         _this.setState({ selectedCompareValue: selectedCompareValue }, function () {
           this.props.onChange(null, date, this.state.selectedCompareValue, this.state.currentHour);
@@ -139,6 +145,12 @@ var DatePicker = function (_Component) {
             date: newDate
           });
         }
+      }
+
+      if (!this.state.changeHour) {
+        this.setState({
+          currentHour: this.props.currentHour || nextProps.currentHour
+        });
       }
     }
   }, {

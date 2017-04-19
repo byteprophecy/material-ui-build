@@ -74,12 +74,16 @@ var _dateUtils = require('./dateUtils');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var hoursString = ['12:00 AM - 01:00 AM', '01:00 AM - 02:00 AM', '02:00 AM - 03:00 AM', '03:00 AM - 04:00 AM', '04:00 AM - 05:00 AM', '05:00 AM - 06:00 AM', '06:00 AM - 07:00 AM', '07:00 AM - 08:00 AM', '08:00 AM - 09:00 AM', '09:00 AM - 10:00 AM', '10:00 AM - 11:00 AM', '11:00 AM - 12:00 PM',
+// After Noon 
+'12:00 PM - 01:00 PM', '01:00 PM - 02:00 PM', '02:00 PM - 03:00 AM', '03:00 PM - 04:00 PM', '04:00 PM - 05:00 PM', '05:00 PM - 06:00 PM', '06:00 PM - 07:00 PM', '07:00 PM - 08:00 PM', '08:00 PM - 09:00 PM', '09:00 PM - 10:00 PM', '10:00 PM - 11:00 PM', '11:00 PM - 12:00 PM'];
+
 var daysArray = [].concat((0, _toConsumableArray3.default)(Array(7)));
 var hours = [].concat((0, _toConsumableArray3.default)(Array(24)));
 hours.forEach(function (item, index) {
   hours[index] = {};
   hours[index].key = index;
-  hours[index].value = index;
+  hours[index].value = hoursString[index];
 });
 
 var Calendar = function (_Component) {
@@ -178,6 +182,7 @@ var Calendar = function (_Component) {
       _this.setState({
         currentHour: event.target.value
       }, function () {
+        debugger;
         this.props.changeHour(this.state.currentHour);
       });
     }, _temp), (0, _possibleConstructorReturn3.default)(_this, _ret);
@@ -435,16 +440,16 @@ var Calendar = function (_Component) {
               { style: { float: 'left', width: '70%' } },
               _react2.default.createElement(
                 'select',
-                { name: "timeSelector", onChange: this.changeHour, style: { marginLeft: '10px' } },
-                this.state.hours.map(function (value, index) {
-                  return _this2.props.currentHour == value.key ? _react2.default.createElement(
+                { name: 'timeSelector', onChange: this.changeHour, style: { marginLeft: '10px' } },
+                this.state.hours.map(function (item, index) {
+                  return _this2.props.currentHour == item.key ? _react2.default.createElement(
                     'option',
-                    { key: index, value: value.key, selected: true },
-                    value.key
+                    { key: index, value: item.key, selected: true },
+                    item.value
                   ) : _react2.default.createElement(
                     'option',
-                    { key: index, value: value.key },
-                    value.key
+                    { key: index, value: item.key },
+                    item.value
                   );
                 })
               )
@@ -464,7 +469,7 @@ var Calendar = function (_Component) {
               { style: { float: 'left', width: '70%' } },
               _react2.default.createElement(
                 'select',
-                { name: "comparedToRadio", style: { marginLeft: '10px' },
+                { name: 'comparedToRadio', style: { marginLeft: '10px' },
                   onChange: this.selectCompareValue },
                 this.props.compareValues.map(function (item) {
                   return _this2.state.selectedCompareValue == item.value ? _react2.default.createElement('option', { value: item.value, label: item.label, selected: true,
