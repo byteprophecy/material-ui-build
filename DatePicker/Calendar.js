@@ -75,6 +75,12 @@ var _dateUtils = require('./dateUtils');
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var daysArray = [].concat((0, _toConsumableArray3.default)(Array(7)));
+var hours = [].concat((0, _toConsumableArray3.default)(Array(24)));
+hours.forEach(function (item, index) {
+  hours[index] = {};
+  hours[index].key = index;
+  hours[index].value = index;
+});
 
 var Calendar = function (_Component) {
   (0, _inherits3.default)(Calendar, _Component);
@@ -95,7 +101,8 @@ var Calendar = function (_Component) {
       displayMonthDay: true,
       selectedDate: undefined,
       transitionDirection: 'left',
-      transitionEnter: true
+      transitionEnter: true,
+      hours: hours
     }, _this.handleTouchTapDay = function (event, date) {
       _this.setSelectedDate(date);
       if (_this.props.onTouchTapDay) _this.props.onTouchTapDay(event, date);
@@ -161,11 +168,17 @@ var Calendar = function (_Component) {
             break;
         }
       }
-    }, _this.selectCompareValue = function (event, value) {
+    }, _this.selectCompareValue = function (event) {
       _this.setState({
-        selectedCompareValue: value
+        selectedCompareValue: event.target.value
       }, function () {
-        this.props.selectCompareValue(value);
+        this.props.selectCompareValue(this.state.selectedCompareValue);
+      });
+    }, _this.changeHour = function (event) {
+      _this.setState({
+        currentHour: event.target.value
+      }, function () {
+        this.props.changeHour(this.state.currentHour);
       });
     }, _temp), (0, _possibleConstructorReturn3.default)(_this, _ret);
   }
@@ -277,6 +290,8 @@ var Calendar = function (_Component) {
   }, {
     key: 'render',
     value: function render() {
+      var _this2 = this;
+
       var prepareStyles = this.context.muiTheme.prepareStyles;
       var hideCalendarDate = this.props.hideCalendarDate;
 
@@ -406,23 +421,59 @@ var Calendar = function (_Component) {
               })
             )
           ),
-          this.props.hasCompareDate ? _react2.default.createElement(
+          this.props.granularity == 'Hourly' && _react2.default.createElement(
             'div',
             { style: { fontSize: '18px', fontFamily: 'Bariol-Light',
                 'marginLeft': '15px' } },
-            'Compare With',
             _react2.default.createElement(
-              _RadioButton.RadioButtonGroup,
-              { name: "comparedToRadio",
-                valueSelected: this.state.selectedCompareValue,
-                defaultSelected: 'previous_day',
-                onChange: this.selectCompareValue },
-              this.props.compareValues.map(function (item) {
-                return _react2.default.createElement(_RadioButton.RadioButton, { value: item.value, label: item.label,
-                  labelStyle: { fontFamily: 'Bariol', fontSize: '16px' } });
-              })
+              'div',
+              { style: { float: 'left', width: '30%' } },
+              'Hours: '
+            ),
+            _react2.default.createElement(
+              'div',
+              { style: { float: 'left', width: '70%' } },
+              _react2.default.createElement(
+                'select',
+                { name: "timeSelector", onChange: this.changeHour, style: { marginLeft: '10px' } },
+                this.state.hours.map(function (value, index) {
+                  return _this2.props.currentHour == value.key ? _react2.default.createElement(
+                    'option',
+                    { key: index, value: value.key, selected: true },
+                    value.key
+                  ) : _react2.default.createElement(
+                    'option',
+                    { key: index, value: value.key },
+                    value.key
+                  );
+                })
+              )
             )
-          ) : null,
+          ),
+          this.props.hasCompareDate && _react2.default.createElement(
+            'div',
+            { style: { fontSize: '18px', fontFamily: 'Bariol-Light',
+                'marginLeft': '15px' } },
+            _react2.default.createElement(
+              'div',
+              { style: { float: 'left', width: '30%' } },
+              'Compare With:'
+            ),
+            _react2.default.createElement(
+              'div',
+              { style: { float: 'left', width: '70%' } },
+              _react2.default.createElement(
+                'select',
+                { name: "comparedToRadio", style: { marginLeft: '10px' },
+                  onChange: this.selectCompareValue },
+                this.props.compareValues.map(function (item) {
+                  return _this2.state.selectedCompareValue == item.value ? _react2.default.createElement('option', { value: item.value, label: item.label, selected: true,
+                    labelStyle: { fontFamily: 'Bariol', fontSize: '16px' } }) : _react2.default.createElement('option', { value: item.value, label: item.label,
+                    labelStyle: { fontFamily: 'Bariol', fontSize: '16px' } });
+                })
+              )
+            )
+          ),
           !this.state.displayMonthDay && _react2.default.createElement(
             'div',
             { style: prepareStyles(styles.yearContainer) },
@@ -473,3 +524,10 @@ process.env.NODE_ENV !== "production" ? Calendar.propTypes = {
   shouldDisableDate: _react.PropTypes.func
 } : void 0;
 exports.default = Calendar;
+
+{
+  /*
+  valueSelected={this.state.selectedCompareValue}
+   defaultSelected={'previous_day'}
+   */
+}

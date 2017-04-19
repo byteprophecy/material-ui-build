@@ -205,6 +205,9 @@ var DatePickerDialog = function (_Component) {
             okLabel: okLabel,
             shouldDisableDate: shouldDisableDate,
             selectCompareValue: this.props.selectCompareValue,
+            changeHour: this.props.changeHour,
+            granularity: this.props.granularity,
+            currentHour: this.props.currentHour,
             hasCompareDate: this.props.hasCompareDate,
             compareValues: this.props.compareValues,
             hideCalendarDate: hideCalendarDate

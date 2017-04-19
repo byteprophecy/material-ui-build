@@ -68,7 +68,8 @@ var DatePicker = function (_Component) {
 
     return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = DatePicker.__proto__ || (0, _getPrototypeOf2.default)(DatePicker)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
       date: undefined,
-      selectedCompareValue: undefined
+      selectedCompareValue: undefined,
+      currentHour: 0
     }, _this.handleAccept = function (date) {
       if (!_this.isControlled()) {
         _this.setState({
@@ -81,7 +82,7 @@ var DatePicker = function (_Component) {
           selectedCompareValue = _this.props.compareValues[0].value;
         }
         _this.setState({ selectedCompareValue: selectedCompareValue }, function () {
-          this.props.onChange(null, date, this.state.selectedCompareValue);
+          this.props.onChange(null, date, this.state.selectedCompareValue, this.state.currentHour);
         });
       }
     }, _this.handleFocus = function (event) {
@@ -102,6 +103,10 @@ var DatePicker = function (_Component) {
     }, _this.selectCompareValue = function (value) {
       _this.setState({
         selectedCompareValue: value
+      });
+    }, _this.changeHour = function (value) {
+      _this.setState({
+        currentHour: value
       });
     }, _this.formatDate = function (date) {
       if (_this.props.locale) {
@@ -250,9 +255,12 @@ var DatePicker = function (_Component) {
           ref: 'dialogWindow',
           shouldDisableDate: shouldDisableDate,
           selectCompareValue: this.selectCompareValue,
+          changeHour: this.changeHour,
           hasCompareDate: this.props.hasCompareDate,
           compareValues: this.props.compareValues,
-          hideCalendarDate: hideCalendarDate
+          hideCalendarDate: hideCalendarDate,
+          granularity: this.props.granularity,
+          currentHour: this.props.currentHour || 0
         })
       );
     }
