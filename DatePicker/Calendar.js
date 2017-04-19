@@ -182,7 +182,6 @@ var Calendar = function (_Component) {
       _this.setState({
         currentHour: event.target.value
       }, function () {
-        debugger;
         this.props.changeHour(this.state.currentHour);
       });
     }, _temp), (0, _possibleConstructorReturn3.default)(_this, _ret);

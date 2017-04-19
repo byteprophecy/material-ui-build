@@ -78,14 +78,7 @@ var DatePicker = function (_Component) {
       if (_this.props.onChange) {
         var selectedCompareValue = _this.state.selectedCompareValue;
         if (!selectedCompareValue) {
-          if (_this.props.compareValues == undefined) {
-            selectedCompareValue = null;
-          }
-          if (_this.props.compareValues.length == 0) {
-            selectedCompareValue = null;
-          } else {
-            selectedCompareValue = _this.this.props.compareValues[0].value;
-          }
+          selectedCompareValue = !_this.props.compareValues || !_this.props.compareValues.length ? null : _this.this.props.compareValues[0].value;
         }
         _this.setState({ selectedCompareValue: selectedCompareValue }, function () {
           this.props.onChange(null, date, this.state.selectedCompareValue, this.state.currentHour);
