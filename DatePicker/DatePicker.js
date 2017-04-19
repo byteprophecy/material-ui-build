@@ -78,7 +78,7 @@ var DatePicker = function (_Component) {
       if (_this.props.onChange) {
         var selectedCompareValue = _this.state.selectedCompareValue;
         if (!selectedCompareValue) {
-          selectedCompareValue = !_this.props.compareValues || !_this.props.compareValues.length ? null : _this.this.props.compareValues[0].value;
+          selectedCompareValue = !_this.props.compareValues || !_this.props.compareValues.length ? null : _this.props.compareValues[0].value;
         }
         _this.setState({ selectedCompareValue: selectedCompareValue }, function () {
           this.props.onChange(null, date, this.state.selectedCompareValue, this.state.currentHour);
